@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cell Organelles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #fff9c4;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    #passport-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+    #passport-btn:hover {
+      background-color: #0056b3;
+    }
+    #buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    .organelle-button {
+      background-color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .organelle-button:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 90%;
+      width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: black;
+    }
+    #popup-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    #popup-desc {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    #popup-video {
+      color: #007bff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    #popup-video:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔬 Explore Cell Organelles</h1>
+  <div id="buttons"></div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <div id="popup-title"></div>
+    <div id="popup-desc"></div>
+    <a id="popup-video" href="#" target="_blank">▶ Watch Video</a>
+  </div>
+
+  <script>
+    const organelles = {
+      Nucleus: {
+        emoji: "🏛️",
+        desc: "The control center of the cell. It contains the cell’s genetic material (DNA) and coordinates activities like growth, metabolism, protein synthesis, and cell division. Think of it as City Hall where all major decisions are made.",
+        video: "https://www.youtube.com/watch?v=8yLNC2BPnyM"
+      },
+      Mitochondria: {
+        emoji: "🔋",
+        desc: "The powerhouse of the cell. They convert nutrients into energy through a process called cellular respiration. They provide the energy needed for the cell’s activities, like the power plants of a city.",
+        video: "https://www.youtube.com/watch?v=r6C54HHFTwE"
+      },
+      ER: {
+        emoji: "🛣️",
+        desc: " A network of tubes and channels that transport materials throughout the cell. Rough ER (with ribosomes) helps make proteins, and smooth ER helps make lipids. It works like the city’s highway system for moving goods.",
+        video: "https://www.youtube.com/watch?v=NRiJhzYE4Ko"
+      },
+      Ribosome: {
+        emoji: "🏭",
+        desc: "Tiny factories that make proteins by putting together amino acids. They can be found floating in the cytoplasm or attached to the rough ER. Proteins made here help build and repair the cell, like workers in industrial zones.",
+        video: "https://www.youtube.com/watch?v=WjnUJusSYAo"
+      },
+      Golgi: {
+        emoji: "📦",
+        desc: "The post office of the cell. It modifies, sorts, and packages proteins and lipids for delivery to different parts of the cell or for export out of the cell.",
+        video: "https://www.youtube.com/watch?v=j2_g1CZCaPs"
+      },
+      CellMembrane: {
+        emoji: "🛂",
+        desc: "Acts like the border and customs of the city. It controls what enters and exits the cell, helping to maintain balance and protect the internal environment..",
+        video: "https://www.youtube.com/watch?v=SsFqmYATM3k"
+      },
+      Lysosome: {
+        emoji: "🗑️",
+        desc: " The waste disposal system. They contain digestive enzymes that break down waste, damaged cell parts, and unwanted materials, keeping the cell clean and efficient.",
+        video: "https://www.youtube.com/watch?v=cw7h6nxtmXU"
+      },
+      Cytoplasm: {
+        emoji: "🌫️",
+        desc: "A jelly-like substance that fills the cell and holds all the organelles. It allows materials to move around easily, like air and roads within the city.",
+        video: "https://www.youtube.com/watch?v=Swv-Cf4eDbs"
+      },
+      Vacuole: {
+        emoji: "💧",
+        desc: "A storage tank for water, nutrients, and waste. In plant cells, it's very large and helps maintain shape and pressure. It functions like a city’s water tank or storage facility.",
+        video: "https://www.youtube.com/watch?v=NSTABonKB9Q"
+      },
+      CellWall: {
+        emoji: "🧱",
+        desc: "Found only in plant cells, the cell wall is a rigid outer layer that gives the cell structure and protection, much like a strong city wall defends and supports a city.",
+        video: "https://www.youtube.com/watch?v=qCN8Hg2DNsA"
+      },
+      Chloroplast: {
+        emoji: "🌿",
+        desc: "The community kitchens of plant cells. They use sunlight, water, and carbon dioxide to produce food (glucose) through photosynthesis — making energy and feeding the city.",
+        video: "https://www.youtube.com/watch?v=Ezl7DbkAJKM"
+      }
+    };
+
+    const buttonContainer = document.getElementById('buttons');
+    const popup = document.getElementById('popup');
+    const popupTitle = document.getElementById('popup-title');
+    const popupDesc = document.getElementById('popup-desc');
+    const popupVideo = document.getElementById('popup-video');
+
+    for (let key in organelles) {
+      const btn = document.createElement('button');
+      btn.className = 'organelle-button';
+      btn.innerText = `${key} ${organelles[key].emoji}`;
+      btn.onclick = () => {
+        popupTitle.innerText = `${key} ${organelles[key].emoji}`;
+        popupDesc.innerText = organelles[key].desc;
+        popupVideo.href = organelles[key].video;
+
+        // ✅ FIXED: store key in lowercase
+        localStorage.setItem(key.toLowerCase(), 'visited');
+
+        popup.style.display = 'block';
+      };
+      buttonContainer.appendChild(btn);
+    }
+
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+
+    function goToPassport() {
+      window.location.href = 'cellpassport.html';
+    }
+  </script>
+
+  <br><br>
+  <button id="passport-btn" onclick="goToPassport()">Go to Cell Passport</button>
+
+</body>
+</html>
